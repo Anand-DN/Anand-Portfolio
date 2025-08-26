@@ -66,6 +66,17 @@ const DATA = {
         "Created a CNN model for COVID-19 prediction from X-ray images",
       ],
     },
+
+        {
+      role: "AI_DevOps Engineer",
+      org: "Rooman Technologies",
+      period: "Sep 2024 – Mar 2025",
+      points: [
+"Designed and deployed cloud-native solutions on IBM Cloud, integrating scalable infrastructure with automation best practices.",
+"Implemented CI/CD pipelines using Jenkins, Docker, and Kubernetes, enabling faster deployments and reducing downtime.",
+"Optimized DevOps workflows by streamlining containerization, orchestration, and pipeline automation, improving reliability and delivery speed.",
+      ],
+    },
   ],
 
   // ====== EDUCATION ======
@@ -603,58 +614,92 @@ function Certs() {
 }
 
 // ====== CONTACT ======
+import { Download } from "lucide-react"; // add this import
+
 function Contact() {
   return (
-    
     <Section id="contact" title="Get in touch" icon={Mail}>
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2">
           <div className="rounded-2xl border p-5 dark:border-white/10 dark:bg-white/5">
-            <div className="text-sm font-semibold uppercase tracking-wide opacity-80 dark:text-white">Let's build something</div>
+            <div className="text-sm font-semibold uppercase tracking-wide opacity-80 dark:text-white">
+              Let's build something
+            </div>
             <p className="mt-2 text-sm text-black/80 dark:text-white/80">
-              I'm available for full‑time roles and exciting projects. Drop a message and I’ll get back soon.
+              I'm available for full-time roles and exciting projects. Drop a
+              message and I’ll get back soon.
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <a href={DATA.links.email} className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white">
-                <Mail className="h-4 w-4"/> ananddn04@gmail.com
+              <a
+                href={DATA.links.email}
+                className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white"
+              >
+                <Mail className="h-4 w-4" /> ananddn04@gmail.com
               </a>
-              <a href={DATA.links.phone} className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white">
-                <Phone className="h-4 w-4"/> +91 91481 66544
+              <a
+                href={DATA.links.phone}
+                className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white"
+              >
+                <Phone className="h-4 w-4" /> +91 91481 66544
               </a>
-              <a href={DATA.links.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white">
-                <Linkedin className="h-4 w-4"/> LinkedIn
+              <a
+                href={DATA.links.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white"
+              >
+                <Linkedin className="h-4 w-4" /> LinkedIn
               </a>
-              <a href={DATA.links.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white">
-                <Github className="h-4 w-4"/> GitHub
+              <a
+                href={DATA.links.github}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition hover:scale-105 dark:border-white/10 dark:text-white"
+              >
+                <Github className="h-4 w-4" /> GitHub
+              </a>
+
+              {/* ✅ Download CV button */}
+              <a
+                href="https://drive.google.com/file/d/1Yix5p8mZYx01DiytzWkpr-Hb4B0v8-XO/view?usp=sharing" // put your CV file inside /public folder
+                download
+                className="inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition hover:scale-105 dark:border-white/10 dark:text-white"
+              >
+                <Download className="h-4 w-4" /> Download CV
               </a>
             </div>
           </div>
         </div>
-<ElectricBorder
-  color="#7df5ff"
-  speed={1}
-  chaos={0.5}
-  thickness={2}
-  style={{ borderRadius: 16 }}
->
-  <div className="rounded-2xl border p-5 dark:border-white/10 dark:bg-white/5">
-    <div className="text-sm font-semibold uppercase tracking-wide opacity-80 dark:text-white">Education</div>
-    <ul className="mt-2 space-y-3 text-sm text-black/80 dark:text-white/80">
-      {DATA.education.map((e) => (
-        <li key={e.school}>
-          <div className="font-semibold dark:text-white">{e.school}</div>
-          <div className="opacity-80">{e.degree}</div>
-          <div className="opacity-60">{e.meta} • {e.period}</div>
-        </li>
-      ))}
-    </ul>
-  </div>
-</ElectricBorder>
 
+        <ElectricBorder
+          color="#7df5ff"
+          speed={1}
+          chaos={0.5}
+          thickness={2}
+          style={{ borderRadius: 16 }}
+        >
+          <div className="rounded-2xl border p-5 dark:border-white/10 dark:bg-white/5">
+            <div className="text-sm font-semibold uppercase tracking-wide opacity-80 dark:text-white">
+              Education
+            </div>
+            <ul className="mt-2 space-y-3 text-sm text-black/80 dark:text-white/80">
+              {DATA.education.map((e) => (
+                <li key={e.school}>
+                  <div className="font-semibold dark:text-white">{e.school}</div>
+                  <div className="opacity-80">{e.degree}</div>
+                  <div className="opacity-60">
+                    {e.meta} • {e.period}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </ElectricBorder>
       </div>
     </Section>
   );
 }
+
 
 // ====== FOOTER ======
 function Footer() {
