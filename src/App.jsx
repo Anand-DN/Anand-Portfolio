@@ -15,18 +15,18 @@ import SplashCursor from "./SplashCursor";
 import TextType from './TextType';
 
 
-// // ====== THEME TOGGLE ======
-// function ThemeToggle({ dark, setDark }) {
-//   return (
-//     <button
-//       aria-label="Toggle Theme"
-//       onClick={() => setDark((d) => !d)}
-//       className="fixed right-4 top-4 z-50 rounded-2xl border px-3 py-2 text-sm backdrop-blur-md transition hover:scale-105 hover:shadow-lg dark:border-white/10 dark:bg-white/5 dark:text-white border-black/10 bg-white/80 text-black"
-//     >
-//       {dark ? <Sun className="h-4 w-4"/> : <Moon className="h-4 w-4"/>}
-//     </button>
-//   );
-// }
+// ====== THEME TOGGLE ======
+function ThemeToggle({ dark, setDark }) {
+  return (
+    <button
+      aria-label="Toggle Theme"
+      onClick={() => setDark((d) => !d)}
+      className="fixed right-4 top-4 z-50 rounded-2xl border px-3 py-2 text-sm backdrop-blur-md transition hover:scale-105 hover:shadow-lg dark:border-white/10 dark:bg-white/5 dark:text-white border-black/10 bg-white/80 text-black"
+    >
+      {dark ? <Sun className="h-4 w-4"/> : <Moon className="h-4 w-4"/>}
+    </button>
+  );
+}
 
 // ====== DATA (Edit here to update your portfolio) ======
 const DATA = {
@@ -719,28 +719,28 @@ function Footer() {
 
 // ====== MAIN APP ======
 export default function App() {
-//   useEffect(() => {
-//     const saved = localStorage.getItem("anand.theme");
-//     if (!saved) {
-//       const m = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-//       if (m) document.documentElement.classList.add('dark');
-//     }
-//   }, []);
+  useEffect(() => {
+    const saved = localStorage.getItem("anand.theme");
+    if (!saved) {
+      const m = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (m) document.documentElement.classList.add('dark');
+    }
+  }, []);
 
   
 
-// const [dark, setDark] = useState(() => {
-//     // Read from localStorage or detect system preference on first mount
-//     const saved = localStorage.getItem("anand.theme");
-//     if (saved) return saved === "dark";
-//     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-//   });
+const [dark, setDark] = useState(() => {
+    // Read from localStorage or detect system preference on first mount
+    const saved = localStorage.getItem("anand.theme");
+    if (saved) return saved === "dark";
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
-//   useEffect(() => {
-//     if (dark) document.documentElement.classList.add("dark");
-//     else document.documentElement.classList.remove("dark");
-//     localStorage.setItem("anand.theme", dark ? "dark" : "light");
-//   }, [dark]);
+  useEffect(() => {
+    if (dark) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+    localStorage.setItem("anand.theme", dark ? "dark" : "light");
+  }, [dark]);
 
 
   return (
