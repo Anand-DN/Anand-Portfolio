@@ -1,4 +1,3 @@
-
 "use client";
 
 import { gsap } from "gsap";
@@ -23,6 +22,7 @@ const TextType = ({
   onSentenceComplete,
   startOnVisible = false,
   reverseMode = false,
+  useThemeColors = true, // New prop to control theme color usage
   ...props
 }) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -162,7 +162,15 @@ const TextType = ({
       className: `inline-block whitespace-pre-wrap tracking-tight ${className}`,
       ...props,
     },
-    <span className="inline" style={{ color: getCurrentTextColor() }}>
+    <span 
+      className="inline" 
+      style={
+        // Only use inline style if useThemeColors is false and textColors are provided
+        !useThemeColors && textColors.length > 0 
+          ? { color: getCurrentTextColor() } 
+          : undefined
+      }
+    >
       {displayedText}
     </span>,
     showCursor && (
