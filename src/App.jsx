@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { BriefcaseBusiness, ChevronRight, ExternalLink, Github, Linkedin, Mail, MapPin, Medal, Phone, Rocket } from "lucide-react";
+import { BriefcaseBusiness, ChevronRight, ExternalLink, Github, Linkedin, Mail, MapPin, Medal, Moon, Phone, Rocket, Sun } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import anandImage from "./assets/anand.png";
 import busImage from "./assets/bus.png";
@@ -13,20 +13,20 @@ import PixelTransition from "./PixelTransition";
 import Prism from "./Prism";
 import SplashCursor from "./SplashCursor";
 import TextType from './TextType';
+import { useTheme } from "./ThemeContext";
 
-
-// ====== THEME TOGGLE ======
-function ThemeToggle({ dark, setDark }) {
-  return (
-    <button
-      aria-label="Toggle Theme"
-      onClick={() => setDark((d) => !d)}
-      className="fixed right-4 top-4 z-50 rounded-2xl border px-3 py-2 text-sm backdrop-blur-md transition hover:scale-105 hover:shadow-lg dark:border-white/10 dark:bg-white/5 dark:text-white border-black/10 bg-white/80 text-black"
-    >
-      {dark ? <Sun className="h-4 w-4"/> : <Moon className="h-4 w-4"/>}
-    </button>
-  );
-}
+// // ====== THEME TOGGLE ======
+// function ThemeToggle({ dark, setDark }) {
+//   return (
+//     <button
+//       aria-label="Toggle Theme"
+//       onClick={() => setDark((d) => !d)}
+//       className="fixed right-4 top-4 z-50 rounded-2xl border px-3 py-2 text-sm backdrop-blur-md transition hover:scale-105 hover:shadow-lg dark:border-white/10 dark:bg-white/5 dark:text-white border-black/10 bg-white/80 text-black"
+//     >
+//       {dark ? <Sun className="h-4 w-4"/> : <Moon className="h-4 w-4"/>}
+//     </button>
+//   );
+// }
 
 // ====== DATA (Edit here to update your portfolio) ======
 const DATA = {
@@ -213,21 +213,26 @@ function Chip({ children }) {
 
 
 // ====== NAVBAR ======
+
+
 function Nav() {
   const active = useActiveSection(sectionIds);
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <nav className="fixed inset-x-0 top-0 z-40 mx-auto w-full max-w-6xl px-4">
       <div className="mt-4 flex items-center justify-between rounded-2xl border bg-white/70 px-3 py-2 backdrop-blur-md dark:border-white/10 dark:bg-white/5">
+        {/* Left side brand */}
         <div className="flex items-center gap-2 font-semibold tracking-tight dark:text-white">
           <Rocket className="h-5 w-5" />
           <span>Anand • Portfolio</span>
         </div>
 
+        {/* Center nav links */}
         <div className="hidden gap-1 md:flex">
           {sectionIds.map((id) => (
             <a
-              key={id} // Add this key prop
+              key={id}
               href={`#${id}`}
               className={`rounded-full px-3 py-1 text-sm transition hover:scale-105 ${
                 active === id
@@ -239,10 +244,23 @@ function Nav() {
             </a>
           ))}
         </div>
+
+        {/* Right side theme toggle */}
+        <button
+          onClick={toggleTheme}
+          className="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 transition"
+        >
+          {theme === "dark" ? (
+            <Sun className="w-5 h-5 text-yellow-400" />
+          ) : (
+            <Moon className="w-5 h-5 text-gray-800" />
+          )}
+        </button>
       </div>
     </nav>
   );
 }
+
 
 // ====== SECTION WRAPPER ======
 function Section({ id, title, icon: Icon, children, className = "" }) {
@@ -719,28 +737,28 @@ function Footer() {
 
 // ====== MAIN APP ======
 export default function App() {
-  useEffect(() => {
-    const saved = localStorage.getItem("anand.theme");
-    if (!saved) {
-      const m = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (m) document.documentElement.classList.add('dark');
-    }
-  }, []);
+//   useEffect(() => {
+//     const saved = localStorage.getItem("anand.theme");
+//     if (!saved) {
+//       const m = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+//       if (m) document.documentElement.classList.add('dark');
+//     }
+//   }, []);
 
   
 
-const [dark, setDark] = useState(() => {
-    // Read from localStorage or detect system preference on first mount
-    const saved = localStorage.getItem("anand.theme");
-    if (saved) return saved === "dark";
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+// const [dark, setDark] = useState(() => {
+//     // Read from localStorage or detect system preference on first mount
+//     const saved = localStorage.getItem("anand.theme");
+//     if (saved) return saved === "dark";
+//     return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+//   });
 
-  useEffect(() => {
-    if (dark) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-    localStorage.setItem("anand.theme", dark ? "dark" : "light");
-  }, [dark]);
+//   useEffect(() => {
+//     if (dark) document.documentElement.classList.add("dark");
+//     else document.documentElement.classList.remove("dark");
+//     localStorage.setItem("anand.theme", dark ? "dark" : "light");
+//   }, [dark]);
 
 
   return (
