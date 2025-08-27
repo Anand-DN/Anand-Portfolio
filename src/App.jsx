@@ -69,7 +69,7 @@ const DATA = {
   role: "Backend & AI/ML Engineer",
   location: "Bengaluru, India",
   about:
-    "Motivated CSE student (CGPA 9.4) with a passion for backend engineering, AI/ML and robust data systems. I love shipping clean, scalable software and learning by building.",
+    "Motivated CSE student with a passion for backend engineering, AI/ML and robust data systems. I love shipping clean, scalable software and learning by building.",
   links: {
     github: "https://github.com/Anand-DN",
     linkedin: "https://www.linkedin.com/in/anand-dn-42954a2b3/",
