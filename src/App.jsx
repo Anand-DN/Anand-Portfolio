@@ -16,7 +16,7 @@ import MagicBento from "./MagicBento";
 import Magnet from './Magnet';
 import PixelTransition from "./PixelTransition";
 import Prism from "./Prism";
-import SplashCursor from "./SplashCursor";
+// import SplashCursor from "./SplashCursor";
 import TextType from './TextType';
 
 // ====== THEME TOGGLE ======
@@ -1114,7 +1114,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-screen overflow-x-hidden bg-gradient-to-br from-black via-gray-900 to-black text-white antialiased">
-      <SplashCursor/>
+{/*       <SplashCursor/> */}
       <ThemeToggle dark={dark} setDark={setDark} />
       <Nav />
       <Hero />
