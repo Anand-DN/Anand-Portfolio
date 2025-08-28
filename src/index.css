@@ -10,6 +10,15 @@
   box-sizing: border-box;
 }
 
+/* Optimize for mobile performance */
+@media (max-width: 768px) {
+  * {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -21,6 +30,8 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #16213e 100%);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ========================= */
@@ -58,12 +69,31 @@ body {
   animation: gradient-xy 8s ease infinite;
 }
 
+/* Reduce animation intensity on mobile */
+@media (max-width: 768px) {
+  .animate-gradient-xy {
+    animation: gradient-xy 12s ease infinite;
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
+@media (max-width: 768px) {
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+}
+
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@media (max-width: 768px) {
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
 }
 
 .animate-shimmer {
@@ -75,6 +105,12 @@ body {
 /* ========================= */
 ::-webkit-scrollbar {
   width: 8px;
+}
+
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
 }
 
 ::-webkit-scrollbar-track {
@@ -99,10 +135,22 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+@media (max-width: 768px) {
+  .glass {
+    backdrop-filter: blur(5px);
+  }
+}
+
 .glass-dark {
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .glass-dark {
+    backdrop-filter: blur(5px);
+  }
 }
 
 /* ========================= */
@@ -119,6 +167,12 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+@media (max-width: 768px) {
+  .holographic {
+    backdrop-filter: blur(5px);
+  }
+}
+
 .holographic::before {
   content: '';
   position: absolute;
@@ -132,8 +186,10 @@ body {
   transition: opacity 0.3s ease;
 }
 
-.holographic:hover::before {
-  opacity: 1;
+@media (min-width: 769px) {
+  .holographic:hover::before {
+    opacity: 1;
+  }
 }
 
 /* ========================= */
@@ -141,6 +197,12 @@ body {
 /* ========================= */
 .text-glow {
   text-shadow: 0 0 10px currentColor;
+}
+
+@media (max-width: 768px) {
+  .text-glow {
+    text-shadow: 0 0 5px currentColor;
+  }
 }
 
 .text-rainbow {
@@ -171,8 +233,10 @@ body {
   transition: left 0.5s;
 }
 
-.btn-glow:hover::before {
-  left: 100%;
+@media (min-width: 769px) {
+  .btn-glow:hover::before {
+    left: 100%;
+  }
 }
 
 /* ========================= */
@@ -197,12 +261,31 @@ body {
   animation: spin-slow 3s linear infinite;
 }
 
+@media (max-width: 768px) {
+  .animate-spin-slow {
+    animation: spin-slow 4s linear infinite;
+  }
+}
+
 /* ========================= */
 /* Responsive utilities */
 /* ========================= */
 @media (max-width: 768px) {
-  .glass, .glass-dark {
-    backdrop-filter: blur(5px);
+  /* Reduce motion for better performance */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Optimize touch interactions */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 }
 
@@ -212,6 +295,12 @@ body {
 *:focus {
   outline: 2px solid rgba(147, 51, 234, 0.5);
   outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  *:focus {
+    outline-width: 1px;
+  }
 }
 
 /* ========================= */
@@ -229,11 +318,23 @@ body {
   transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
+@media (max-width: 768px) {
+  * {
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+}
+
 /* ========================= */
 /* Custom cursor */
 /* ========================= */
 .cursor-glow {
   cursor: none;
+}
+
+@media (max-width: 768px) {
+  .cursor-glow {
+    cursor: default;
+  }
 }
 
 .cursor-glow::after {
@@ -248,4 +349,41 @@ body {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
+}
+
+@media (max-width: 768px) {
+  .cursor-glow::after {
+    display: none;
+  }
+}
+
+/* ========================= */
+/* Performance optimizations */
+/* ========================= */
+@media (max-width: 768px) {
+  /* Reduce blur effects for better performance */
+  .backdrop-blur-xl {
+    backdrop-filter: blur(8px) !important;
+  }
+  
+  .backdrop-blur-lg {
+    backdrop-filter: blur(6px) !important;
+  }
+  
+  .backdrop-blur-md {
+    backdrop-filter: blur(4px) !important;
+  }
+  
+  .backdrop-blur-sm {
+    backdrop-filter: blur(2px) !important;
+  }
+  
+  /* Optimize shadows */
+  .shadow-2xl {
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  }
+  
+  .shadow-xl {
+    box-shadow: 0 8px 20px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  }
 }
