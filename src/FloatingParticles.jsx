@@ -1,14 +1,14 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 
-const FloatingParticles = ({ count = 50, className = "" }) => {
+const FloatingParticles = ({ count = 30, className = "" }) => {
   const particles = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: Math.random() * 4 + 1,
-      duration: Math.random() * 20 + 10,
+      duration: Math.random() * 15 + 8,
       delay: Math.random() * 5,
       opacity: Math.random() * 0.6 + 0.2,
     }));
@@ -38,6 +38,7 @@ const FloatingParticles = ({ count = 50, className = "" }) => {
             delay: particle.delay,
             repeat: Infinity,
             ease: "easeInOut",
+            repeatType: "reverse",
           }}
         />
       ))}

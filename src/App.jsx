@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { BriefcaseBusiness, ChevronRight, Download, ExternalLink, Github, Linkedin, Mail, MapPin, Medal, Moon, Phone, Rocket, Sun } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import anandImage from "./assets/anand.png";
 import busImage from "./assets/bus.png";
 import cnnImage from "./assets/cnn.png";
@@ -201,6 +201,8 @@ const DATA = {
 };
 
 function Skills() {
+  const isMobile = useIsMobile();
+  
   return (
     <Section id="skills" title="Skills" icon={() => <span />}>
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -210,7 +212,7 @@ function Skills() {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.1 }}
+            transition={{ duration: isMobile ? 0.4 : 0.6, delay: index * (isMobile ? 0.05 : 0.1) }}
             className="group"
           >
             <HolographicCard className="h-full">
@@ -229,8 +231,8 @@ function Skills() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       whileInView={{ opacity: 1, scale: 1 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: (index * 0.1) + (itemIndex * 0.05) }}
-                      whileHover={{ scale: 1.05, y: -2 }}
+                      transition={{ duration: 0.3, delay: (index * (isMobile ? 0.05 : 0.1)) + (itemIndex * (isMobile ? 0.02 : 0.05)) }}
+                      whileHover={!isMobile ? { scale: 1.05, y: -2 } : {}}
                     >
                       <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur opacity-30 group-hover/item:opacity-100 transition duration-500"></div>
                       <div className={`relative rounded-xl bg-gradient-to-r ${skill.color} p-[1px]`}>
@@ -253,9 +255,32 @@ function Skills() {
 // ====== UTIL ======
 const sectionIds = ["home", "about", "skills", "experience", "projects", "certs", "contact"]; 
 
+// Mobile detection hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
+};
+
 function useActiveSection(ids) {
   const [active, setActive] = useState(ids[0]);
+  const isMobile = useIsMobile();
+  
   useEffect(() => {
+    // Reduce intersection observer frequency on mobile
+    const rootMargin = isMobile ? "-30% 0px -40% 0px" : "-40% 0px -50% 0px";
+    const threshold = isMobile ? 0.2 : 0.1;
+    
     const observers = ids.map((id) => {
       const el = document.getElementById(id);
       if (!el) return null;
@@ -265,13 +290,13 @@ function useActiveSection(ids) {
             if (e.isIntersecting) setActive(id);
           });
         },
-        { rootMargin: "-40% 0px -50% 0px", threshold: 0.1 }
+        { rootMargin, threshold }
       );
       obs.observe(el);
       return obs;
     });
     return () => observers.forEach((o) => o && o.disconnect());
-  }, [ids.join(",")]);
+  }, [ids.join(","), isMobile]);
   return active;
 }
 
@@ -294,18 +319,19 @@ function Chip({ children, className = "" }) {
 // ====== NAVBAR ======
 function Nav() {
   const active = useActiveSection(sectionIds);
+  const isMobile = useIsMobile();
 
   return (
     <motion.nav 
       className="fixed inset-x-0 top-0 z-40 mx-auto w-full max-w-6xl px-4"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      transition={{ duration: isMobile ? 0.5 : 0.8, ease: "easeOut" }}
     >
       <div className="mt-6 flex items-center justify-between rounded-2xl border border-white/20 bg-black/20 backdrop-blur-xl px-6 py-4 shadow-2xl">
         <motion.div 
           className="flex items-center gap-3 font-bold tracking-tight text-white"
-          whileHover={{ scale: 1.05 }}
+          whileHover={!isMobile ? { scale: 1.05 } : {}}
         >
           <div className="relative">
             <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-pink-500 to-cyan-500 blur opacity-50"></div>
@@ -326,14 +352,18 @@ function Nav() {
                   ? "text-white"
                   : "text-white/70 hover:text-white"
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={!isMobile ? { scale: 1.05 } : {}}
+              whileTap={!isMobile ? { scale: 0.95 } : {}}
             >
               {active === id && (
                 <motion.div
                   className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-600"
                   layoutId="activeTab"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: isMobile ? 300 : 400, 
+                    damping: isMobile ? 40 : 30 
+                  }}
                 />
               )}
               <span className="relative z-10">
@@ -378,6 +408,7 @@ function Section({ id, title, icon: Icon, children, className = "" }) {
 
 // ====== HERO ======
 function Hero() {
+  const isMobile = useIsMobile();
   const handleAnimationComplete = () => {
     console.log('Animation completed!');
   };
@@ -385,36 +416,42 @@ function Hero() {
   return (
     <Section id="home" title="" icon={() => <span />} className="pt-32 relative min-h-screen flex items-center">
       {/* Background Effects */}
-      <FloatingParticles />
-      <GlowingOrb />
+      {!isMobile && <FloatingParticles count={30} />}
+      {!isMobile && <GlowingOrb />}
       
       {/* Prism Background */}
-      <Prism
-        animationType="rotate"
-        timeScale={0.3}
-        height={1}
-        baseWidth={5.5}
-        scale={4}
-        hueShift={0}
-        colorFrequency={0.5}
-        noise={0.2}
-        glow={1.5}
-        className="absolute inset-0 -z-10 w-full h-full opacity-30"
-      />
+      {!isMobile && (
+        <Prism
+          animationType="rotate"
+          timeScale={0.2}
+          height={1}
+          baseWidth={5.5}
+          scale={3}
+          hueShift={0}
+          colorFrequency={0.3}
+          noise={0.1}
+          glow={1}
+          className="absolute inset-0 -z-10 w-full h-full opacity-20"
+        />
+      )}
 
       <div className="relative w-full">
         <motion.div 
           className="relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-black/40 via-purple-900/20 to-black/40 backdrop-blur-xl p-8 shadow-2xl"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: isMobile ? 0.6 : 1, ease: "easeOut" }}
         >
           {/* Animated background gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-500/10 animate-gradient-xy"></div>
+          <div className={`absolute inset-0 bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-500/10 ${!isMobile ? 'animate-gradient-xy' : ''}`}></div>
           
           {/* Decorative orbs */}
-          <div className="pointer-events-none absolute -left-32 -top-32 h-64 w-64 rounded-full bg-gradient-to-r from-pink-500/30 to-purple-500/30 blur-3xl animate-pulse"/>
-          <div className="pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full bg-gradient-to-r from-cyan-500/30 to-blue-500/30 blur-3xl animate-pulse"/>
+          {!isMobile && (
+            <>
+              <div className="pointer-events-none absolute -left-32 -top-32 h-64 w-64 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-500/20 blur-3xl animate-pulse"/>
+              <div className="pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full bg-gradient-to-r from-cyan-500/20 to-blue-500/20 blur-3xl animate-pulse"/>
+            </>
+          )}
 
           <div className="relative grid items-center gap-12 lg:grid-cols-5">
             {/* Text Column */}
@@ -490,8 +527,8 @@ function Hero() {
                       target={link.href.startsWith('http') ? "_blank" : undefined}
                       rel={link.href.startsWith('http') ? "noreferrer" : undefined}
                       className="group relative inline-flex items-center gap-3 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-white/20"
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      whileTap={{ scale: 0.95 }}
+                      whileHover={!isMobile ? { scale: 1.05, y: -2 } : {}}
+                      whileTap={!isMobile ? { scale: 0.95 } : {}}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
@@ -509,11 +546,11 @@ function Hero() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8, rotateY: -30 }}
               animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
+              transition={{ duration: isMobile ? 0.6 : 1, delay: 0.2 }}
               className="lg:col-span-2 flex justify-center"
             >
               <div className="relative">
-                <div className="absolute -inset-4 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur-xl opacity-50 animate-pulse"></div>
+                <div className={`absolute -inset-4 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur-xl opacity-30 ${!isMobile ? 'animate-pulse' : ''}`}></div>
                 <PixelTransition
                   firstContent={
                     <img
@@ -537,7 +574,7 @@ function Hero() {
                   }
                   gridSize={15}
                   pixelColor='#8b5cf6'
-                  animationStepDuration={0.6}
+                  animationStepDuration={isMobile ? 0.4 : 0.6}
                   className="relative z-10 w-80 h-80"
                 />
               </div>
@@ -551,6 +588,8 @@ function Hero() {
 
 // ====== ABOUT ======
 function About() {
+  const isMobile = useIsMobile();
+  
   return (
     <Section id="about" title="About" icon={Rocket}>
       <div className="grid gap-8 lg:grid-cols-3">
@@ -560,7 +599,7 @@ function About() {
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: isMobile ? 0.5 : 0.8 }}
         >
           <HolographicCard>
             <div className="p-8 space-y-6">
@@ -590,11 +629,11 @@ function About() {
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: isMobile ? 0.5 : 0.8, delay: isMobile ? 0.1 : 0.2 }}
         >
           <ElectricBorder
             color="#7df5ff"
-            speed={1.5}
+            speed={isMobile ? 1 : 1.5}
             chaos={0.7}
             thickness={2}
             style={{ borderRadius: 16 }}
@@ -617,8 +656,8 @@ function About() {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.1)" }}
+                      transition={{ duration: 0.4, delay: index * (isMobile ? 0.05 : 0.1) }}
+                      whileHover={!isMobile ? { scale: 1.02, backgroundColor: "rgba(255,255,255,0.1)" } : {}}
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-xl">{stat.icon}</span>
@@ -639,6 +678,8 @@ function About() {
 
 // ====== EXPERIENCE ======
 function Experience() {
+  const isMobile = useIsMobile();
+  
   return (
     <Section id="experience" title="Experience" icon={BriefcaseBusiness}>
       <div className="relative">
@@ -650,7 +691,7 @@ function Experience() {
               initial={{ opacity: 0, x: -50 }} 
               whileInView={{ opacity: 1, x: 0 }} 
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ duration: isMobile ? 0.4 : 0.6, delay: index * (isMobile ? 0.1 : 0.2) }}
               className="relative md:ml-12"
             >
               <div className="md:absolute md:-left-3 md:top-8 md:h-6 md:w-6 md:rounded-full md:bg-gradient-to-r md:from-pink-500 md:to-purple-600 md:shadow-lg md:shadow-purple-500/50"/>
@@ -674,7 +715,7 @@ function Experience() {
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.4, delay: (index * 0.2) + (idx * 0.1) }}
+                        transition={{ duration: 0.3, delay: (index * (isMobile ? 0.1 : 0.2)) + (idx * (isMobile ? 0.05 : 0.1)) }}
                       >
                         <div className="w-2 h-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 mt-2 flex-shrink-0"></div>
                         <span>{p}</span>
@@ -693,13 +734,15 @@ function Experience() {
 
 // ====== PROJECT CARD ======
 function ProjectCard({ p, index }) {
+  const isMobile = useIsMobile();
+  
   return (
     <motion.div 
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ y: -10 }}
+      transition={{ duration: isMobile ? 0.4 : 0.6, delay: index * (isMobile ? 0.05 : 0.1) }}
+      whileHover={!isMobile ? { y: -10 } : {}}
       className="group relative h-full"
     >
       <HolographicCard className="h-full">
@@ -720,8 +763,8 @@ function ProjectCard({ p, index }) {
                     target="_blank" 
                     rel="noreferrer" 
                     className="group/btn relative inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm px-4 py-2 text-xs font-medium text-white transition-all duration-300 hover:bg-white/20"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={!isMobile ? { scale: 1.05 } : {}}
+                    whileTap={!isMobile ? { scale: 0.95 } : {}}
                   >
                     <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 blur opacity-0 group-hover/btn:opacity-50 transition duration-300"></div>
                     <ExternalLink className="relative h-3 w-3"/>
@@ -736,8 +779,8 @@ function ProjectCard({ p, index }) {
                     target="_blank" 
                     rel="noreferrer" 
                     className="group/btn relative inline-flex items-center gap-2 rounded-xl border border-white/20 bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-sm px-4 py-2 text-xs font-medium text-white transition-all duration-300 hover:from-green-500/30 hover:to-emerald-500/30"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={!isMobile ? { scale: 1.05 } : {}}
+                    whileTap={!isMobile ? { scale: 0.95 } : {}}
                   >
                     <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 blur opacity-0 group-hover/btn:opacity-50 transition duration-300"></div>
                     <ExternalLink className="relative h-3 w-3"/>
@@ -757,8 +800,8 @@ function ProjectCard({ p, index }) {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: (index * 0.1) + (tagIndex * 0.05) }}
-                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2, delay: (index * (isMobile ? 0.05 : 0.1)) + (tagIndex * (isMobile ? 0.02 : 0.05)) }}
+                whileHover={!isMobile ? { scale: 1.05 } : {}}
               >
                 <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur opacity-30 group-hover/tag:opacity-100 transition duration-300"></div>
                 <span className="relative rounded-full border border-white/20 bg-white/10 backdrop-blur-sm px-3 py-1 text-xs font-medium text-white">
@@ -782,6 +825,7 @@ function ProjectCard({ p, index }) {
 
 // ====== PROJECTS ======
 function Projects() {
+  const isMobile = useIsMobile();
   const [filter, setFilter] = useState("All");
   const tags = useMemo(() => {
     const all = new Set(["All"]);
@@ -797,14 +841,14 @@ function Projects() {
         <div className="absolute inset-0 -z-10 opacity-30">
           <MagicBento
             textAutoHide={true}
-            enableStars={true}
-            enableSpotlight={true}
+            enableStars={!isMobile}
+            enableSpotlight={!isMobile}
             enableBorderGlow={true}
-            enableTilt={true}
+            enableTilt={!isMobile}
             enableMagnetism={true}
             clickEffect={true}
-            spotlightRadius={400}
-            particleCount={15}
+            spotlightRadius={isMobile ? 200 : 400}
+            particleCount={isMobile ? 8 : 15}
             glowColor="132, 0, 255"
           />
         </div>
@@ -826,18 +870,22 @@ function Projects() {
                   ? "text-white" 
                   : "text-white/70 hover:text-white"
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={!isMobile ? { scale: 1.05 } : {}}
+              whileTap={!isMobile ? { scale: 0.95 } : {}}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
+              transition={{ duration: 0.3, delay: index * (isMobile ? 0.02 : 0.05) }}
             >
               {filter === t && (
                 <motion.div
                   className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-600"
                   layoutId="projectFilter"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: isMobile ? 300 : 400, 
+                    damping: isMobile ? 40 : 30 
+                  }}
                 />
               )}
               <span className="relative z-10">{t}</span>
@@ -860,6 +908,8 @@ function Projects() {
 
 // ====== CERTIFICATIONS ======
 function Certs() {
+  const isMobile = useIsMobile();
+  
   return (
     <Section id="certs" title="Certifications & Achievements" icon={Medal}>
       <div className="grid gap-8 md:grid-cols-2">
@@ -867,7 +917,7 @@ function Certs() {
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: isMobile ? 0.4 : 0.6 }}
         >
           <HolographicCard className="h-full">
             <div className="p-6 space-y-6">
@@ -885,8 +935,8 @@ function Certs() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, x: 5 }}
+                    transition={{ duration: 0.3, delay: index * (isMobile ? 0.05 : 0.1) }}
+                    whileHover={!isMobile ? { scale: 1.02, x: 5 } : {}}
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
@@ -906,7 +956,7 @@ function Certs() {
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? 0.1 : 0.2 }}
         >
           <HolographicCard className="h-full">
             <div className="p-6 space-y-6">
@@ -924,8 +974,8 @@ function Certs() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, x: 5 }}
+                    transition={{ duration: 0.3, delay: index * (isMobile ? 0.05 : 0.1) }}
+                    whileHover={!isMobile ? { scale: 1.02, x: 5 } : {}}
                   >
                     <div className="w-2 h-2 rounded-full bg-gradient-to-r from-green-400 to-emerald-500"></div>
                     <span className="text-white">{a}</span>
@@ -942,6 +992,8 @@ function Certs() {
 
 // ====== CONTACT ======
 function Contact() {
+  const isMobile = useIsMobile();
+  
   return (
     <Section id="contact" title="Get in touch" icon={Mail}>
       <div className="grid gap-8 lg:grid-cols-3">
@@ -950,7 +1002,7 @@ function Contact() {
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: isMobile ? 0.4 : 0.6 }}
         >
           <HolographicCard>
             <div className="p-8 space-y-6">
@@ -977,12 +1029,12 @@ function Contact() {
                       target={contact.href.startsWith('http') ? "_blank" : undefined}
                       rel={contact.href.startsWith('http') ? "noreferrer" : undefined}
                       className="group relative flex items-center gap-3 rounded-xl border border-white/20 bg-white/10 backdrop-blur-sm p-4 transition-all duration-300 hover:bg-white/20"
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={!isMobile ? { scale: 1.02, y: -2 } : {}}
+                      whileTap={!isMobile ? { scale: 0.98 } : {}}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
+                      transition={{ duration: 0.3, delay: index * (isMobile ? 0.05 : 0.1) }}
                     >
                       <div className={`absolute -inset-1 rounded-xl bg-gradient-to-r ${contact.color} blur opacity-0 group-hover:opacity-50 transition duration-500`}></div>
                       <contact.icon className="relative h-5 w-5 text-white" />
@@ -998,12 +1050,12 @@ function Contact() {
                   target="_blank"
                   rel="noreferrer"
                   className="group relative inline-flex items-center gap-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 px-8 py-4 font-bold text-white transition-all duration-300 hover:from-pink-600 hover:to-purple-700"
-                  whileHover={{ scale: 1.05, y: -3 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={!isMobile ? { scale: 1.05, y: -3 } : {}}
+                  whileTap={!isMobile ? { scale: 0.95 } : {}}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? 0.2 : 0.4 }}
                 >
                   <div className="absolute -inset-2 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 blur-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
                   <Download className="relative h-5 w-5" />
@@ -1018,11 +1070,11 @@ function Contact() {
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? 0.1 : 0.2 }}
         >
           <ElectricBorder
             color="#7df5ff"
-            speed={1}
+            speed={isMobile ? 0.8 : 1}
             chaos={0.5}
             thickness={2}
             style={{ borderRadius: 16 }}
@@ -1043,8 +1095,8 @@ function Contact() {
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.3, delay: index * (isMobile ? 0.05 : 0.1) }}
+                      whileHover={!isMobile ? { scale: 1.02 } : {}}
                     >
                       <h4 className="font-bold text-white">{e.school}</h4>
                       <p className="text-gray-300">{e.degree}</p>
@@ -1066,13 +1118,15 @@ function Contact() {
 
 // ====== FOOTER ======
 function Footer() {
+  const isMobile = useIsMobile();
+  
   return (
     <motion.footer 
       className="px-4 pb-10"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: isMobile ? 0.4 : 0.6 }}
     >
       <div className="mx-auto max-w-6xl">
         <HolographicCard>
@@ -1086,7 +1140,7 @@ function Footer() {
                 target="_blank" 
                 rel="noreferrer" 
                 className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
-                whileHover={{ scale: 1.05 }}
+                whileHover={!isMobile ? { scale: 1.05 } : {}}
               >
                 View old portfolio <ChevronRight className="h-4 w-4"/>
               </motion.a>
@@ -1100,6 +1154,7 @@ function Footer() {
 
 // ====== MAIN APP ======
 export default function App() {
+  const isMobile = useIsMobile();
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem("anand.theme");
     if (saved) return saved === "dark";
@@ -1114,7 +1169,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-screen overflow-x-hidden bg-gradient-to-br from-black via-gray-900 to-black text-white antialiased">
-      <SplashCursor/>
+      {!isMobile && <SplashCursor/>}
       <ThemeToggle dark={dark} setDark={setDark} />
       <Nav />
       <Hero />
