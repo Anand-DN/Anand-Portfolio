@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 
 const HolographicCard = ({ 
   children, 
@@ -8,20 +8,9 @@ const HolographicCard = ({
   ...props 
 }) => {
   const cardRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
-  
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const handleMouseMove = (e) => {
-    if (!cardRef.current || isMobile) return;
+    if (!cardRef.current) return;
     
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -41,7 +30,7 @@ const HolographicCard = ({
   };
 
   const handleMouseLeave = () => {
-    if (!cardRef.current || isMobile) return;
+    if (!cardRef.current) return;
     cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
   };
 
@@ -58,8 +47,8 @@ const HolographicCard = ({
         hover:before:opacity-100 hover:shadow-2xl hover:shadow-purple-500/20
         ${className}
       `}
-      onMouseMove={!isMobile ? handleMouseMove : undefined}
-      onMouseLeave={!isMobile ? handleMouseLeave : undefined}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         '--mouse-x': '50%',
         '--mouse-y': '50%',
@@ -84,7 +73,7 @@ const HolographicCard = ({
       
       {/* Holographic shimmer effect */}
       <div 
-        className={`absolute inset-0 opacity-0 transition-opacity duration-300 ${!isMobile ? 'hover:opacity-100' : ''} pointer-events-none`}
+        className="absolute inset-0 opacity-0 transition-opacity duration-300 hover:opacity-100 pointer-events-none"
         style={{
           background: `
             radial-gradient(circle at var(--mouse-x) var(--mouse-y), 

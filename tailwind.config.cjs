@@ -10,11 +10,11 @@ module.exports = {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       animation: {
-        'gradient-xy': 'gradient-xy 12s ease infinite',
-        'float': 'float 8s ease-in-out infinite',
-        'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
-        'shimmer': 'shimmer 3s ease-in-out infinite',
-        'spin-slow': 'spin-slow 4s linear infinite',
+        'gradient-xy': 'gradient-xy 15s ease infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+        'shimmer': 'shimmer 2s ease-in-out infinite',
+        'spin-slow': 'spin-slow 3s linear infinite',
         'marquee': 'marquee 15s linear infinite',
       },
       keyframes: {
@@ -69,15 +69,7 @@ module.exports = {
       },
       translate: {
         '101': '101%',
-      },
-      screens: {
-        'xs': '475px',
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1024px',
-        'xl': '1280px',
-        '2xl': '1536px',
-      },
+      }
     },
   },
   plugins: [],
