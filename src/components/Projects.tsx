@@ -2,10 +2,6 @@ import { motion } from "framer-motion";
 import { Calendar, ExternalLink, Github } from "lucide-react";
 import React from "react";
 import { useInView } from "react-intersection-observer";
-// import busImage from "../assets/bus.png";
-// import cnnImage from "../assets/cnn.png";
-// import Demo1Image from "../assets/demo1.png";
-// import realImage from "../assets/real.jpg";
 
 const Projects: React.FC = () => {
   const [ref, inView] = useInView({
@@ -67,7 +63,7 @@ const Projects: React.FC = () => {
       ],
       duration: "Nov 2022 - Dec 2023",
       category: "AI/ML",
-      image: "/cnn.png",
+      image: "cnn.png",
       gradient: "from-green-500 to-blue-600",
       // livedemo: "https://your-demo-link.com",
       codelink:

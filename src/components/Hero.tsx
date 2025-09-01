@@ -7,8 +7,7 @@ import {
   Phone,
   Sparkles,
 } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
-import anandImage from "../assets/anand.png"; // ✅ ensure correct path
+import React, { useEffect, useRef, useState } from "react"; // ✅ ensure correct path
 import BlurText from "./BlurText";
 
 const Hero: React.FC = () => {
@@ -189,7 +188,7 @@ const Hero: React.FC = () => {
                   <div className="w-full h-full bg-white dark:bg-dark-200 rounded-full p-1">
                     <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-dark-200 dark:to-dark-300 rounded-full flex items-center justify-center relative overflow-hidden">
                       <img
-                        src={anandImage}
+                        src="/anand.png"
                         alt="Anand DN"
                         className="w-full h-full object-cover rounded-full"
                       />
