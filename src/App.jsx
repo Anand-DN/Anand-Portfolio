@@ -741,6 +741,7 @@ function ProjectCard({ p, index }) {
 // ====== PROJECTS ======
 function Projects() {
   const [filter, setFilter] = useState("All");
+  const { resolvedTheme } = useTheme();
   const tags = useMemo(() => {
     const all = new Set(["All"]);
     DATA.projects.forEach((p) => p.tags.forEach((t) => all.add(t)));
@@ -749,70 +750,72 @@ function Projects() {
   const filtered = DATA.projects.filter((p) => filter === "All" || p.tags.includes(filter));
 
   return (
-    <Section id="projects" title="Projects" icon={Rocket}>
-      <div className="relative">
-        {/* MagicBento Background */}
-        <div className="absolute inset-0 -z-10 opacity-30">
-          <MagicBento
-            textAutoHide={true}
-            enableStars={true}
-            enableSpotlight={true}
-            enableBorderGlow={true}
-            enableTilt={true}
-            enableMagnetism={true}
-            clickEffect={true}
-            spotlightRadius={400}
-            particleCount={15}
-            glowColor="132, 0, 255"
-          />
-        </div>
+    <ParallaxSection speed={0.1}>
+      <Section id="projects" title="Projects" icon={Rocket}>
+        <div className="relative">
+          {/* MagicBento Background */}
+          <div className="absolute inset-0 -z-10 opacity-30">
+            <MagicBento
+              textAutoHide={true}
+              enableStars={true}
+              enableSpotlight={true}
+              enableBorderGlow={true}
+              enableTilt={true}
+              enableMagnetism={true}
+              clickEffect={true}
+              spotlightRadius={400}
+              particleCount={15}
+              glowColor="132, 0, 255"
+            />
+          </div>
 
-        {/* Filter Buttons */}
-        <motion.div 
-          className="mb-8 flex flex-wrap items-center gap-3 relative z-10"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          {tags.map((t, index) => (
-            <motion.button
-              key={t}
-              onClick={() => setFilter(t)}
-              className={`relative rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 ${
-                filter === t 
-                  ? "text-white" 
-                  : "text-white/70 hover:text-white"
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-            >
-              {filter === t && (
-                <motion.div
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-600"
-                  layoutId="projectFilter"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">{t}</span>
-            </motion.button>
-          ))}
-        </motion.div>
-
-        {/* Projects Grid */}
-        <div className="grid gap-8 md:grid-cols-2 relative z-10">
-          <AnimatePresence mode="wait">
-            {filtered.map((p, index) => (
-              <ProjectCard key={p.title} p={p} index={index} />
+          {/* Filter Buttons */}
+          <motion.div 
+            className="mb-8 flex flex-wrap items-center gap-3 relative z-10"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            {tags.map((t, index) => (
+              <motion.button
+                key={t}
+                onClick={() => setFilter(t)}
+                className={`relative rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 ${
+                  filter === t 
+                    ? "text-white" 
+                    : "text-white/70 hover:text-white"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+              >
+                {filter === t && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500 to-purple-600"
+                    layoutId="projectFilter"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{t}</span>
+              </motion.button>
             ))}
-          </AnimatePresence>
+          </motion.div>
+
+          {/* Projects Grid */}
+          <div className="grid gap-8 md:grid-cols-2 relative z-10">
+            <AnimatePresence mode="wait">
+              {filtered.map((p, index) => (
+                <ProjectCard key={p.title} p={p} index={index} />
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
-      </div>
-    </Section>
+      </Section>
+    </ParallaxSection>
   );
 }
 
