@@ -38,21 +38,13 @@ const HolographicCard = ({
     <motion.div
       ref={cardRef}
       className={`
-        relative overflow-hidden rounded-2xl border transition-all duration-500 ease-out
-        border-white/20 dark:border-white/20 border-gray-200/50
-        bg-gradient-to-br backdrop-blur-xl
-        from-white/10 via-white/5 to-transparent
-        dark:from-white/10 dark:via-white/5 dark:to-transparent
-        light:from-black/5 light:via-black/2 light:to-transparent
+        relative overflow-hidden rounded-2xl border border-white/20 
+        bg-gradient-to-br from-white/10 via-white/5 to-transparent 
+        backdrop-blur-xl transition-all duration-300 ease-out
         before:absolute before:inset-0 before:rounded-2xl
-        before:bg-gradient-to-br 
-        before:from-white/20 before:via-transparent before:to-purple-500/20
-        dark:before:from-white/20 dark:before:via-transparent dark:before:to-purple-500/20
-        light:before:from-black/10 light:before:via-transparent light:before:to-blue-500/10
+        before:bg-gradient-to-br before:from-white/20 before:via-transparent before:to-purple-500/20
         before:opacity-0 before:transition-opacity before:duration-300
-        hover:before:opacity-100 hover:shadow-2xl 
-        hover:shadow-purple-500/20 dark:hover:shadow-purple-500/20
-        light:hover:shadow-blue-500/20
+        hover:before:opacity-100 hover:shadow-2xl hover:shadow-purple-500/20
         ${className}
       `}
       onMouseMove={handleMouseMove}

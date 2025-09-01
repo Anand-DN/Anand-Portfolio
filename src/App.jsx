@@ -1,31 +1,67 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { BriefcaseBusiness, ChevronRight, Download, ExternalLink, Github, Linkedin, Mail, MapPin, Medal, Phone, Rocket } from "lucide-react";
+import { BriefcaseBusiness, ChevronRight, Download, ExternalLink, Github, Linkedin, Mail, MapPin, Medal, Moon, Phone, Rocket, Sun } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import anandImage from "./assets/anand.png";
 import busImage from "./assets/bus.png";
 import cnnImage from "./assets/cnn.png";
 import DemoImage from "./assets/Demo1.png";
 import realImage from "./assets/real.jpg";
-import EnhancedBlurText from "./components/EnhancedBlurText";
-import EnhancedTextType from "./components/EnhancedTextType";
-import GlitchText from "./components/GlitchText";
-import MatrixRain from "./components/MatrixRain";
-import NeuralNetwork from "./components/NeuralNetwork";
-import ParallaxSection from "./components/ParallaxSection";
-import ScrollProgress from "./components/ScrollProgress";
-import ThemeToggle from "./components/ThemeToggle";
+import BlurText from "./BlurText";
 import ElectricBorder from './ElectricBorder';
 import FloatingParticles from './FloatingParticles';
 import FlowingMenu from "./FlowingMenu";
 import GlowingOrb from './GlowingOrb';
 import HolographicCard from './HolographicCard';
-import { useTheme } from "./hooks/useTheme";
 import MagicBento from "./MagicBento";
 import Magnet from './Magnet';
 import PixelTransition from "./PixelTransition";
 import Prism from "./Prism";
 import SplashCursor from "./SplashCursor";
-import TypeText from "./TypeText.jsx";
+import TextType from './TextType';
+
+// ====== THEME TOGGLE ======
+function ThemeToggle({ dark, setDark }) {
+  return (
+    <Magnet magnetStrength={3} padding={50}>
+      <motion.button
+        aria-label="Toggle Theme"
+        onClick={() => setDark((d) => !d)}
+        className="fixed right-6 top-6 z-50 group"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <div className="relative">
+          <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur-lg opacity-30 group-hover:opacity-100 transition duration-700 animate-gradient-xy"></div>
+          <div className="relative rounded-full border-2 border-white/20 bg-white/10 backdrop-blur-xl px-4 py-3 text-sm transition-all duration-300 hover:bg-white/20 dark:border-white/30 dark:bg-black/20 dark:hover:bg-black/30">
+            <AnimatePresence mode="wait">
+              {dark ? (
+                <motion.div
+                  key="sun"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Sun className="h-5 w-5 text-yellow-400" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="moon"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Moon className="h-5 w-5 text-blue-400" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </motion.button>
+    </Magnet>
+  );
+}
 
 // ====== DATA (Edit here to update your portfolio) ======
 const DATA = {
@@ -313,8 +349,6 @@ function Nav() {
 
 // ====== SECTION WRAPPER ======
 function Section({ id, title, icon: Icon, children, className = "" }) {
-  const { resolvedTheme } = useTheme();
-  
   return (
     <section id={id} className={`scroll-mt-24 px-4 relative ${className}`}>
       <div className="mx-auto max-w-6xl py-20">
@@ -328,20 +362,12 @@ function Section({ id, title, icon: Icon, children, className = "" }) {
           >
             <div className="relative">
               <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-pink-500 to-cyan-500 blur opacity-50"></div>
-              <Icon className={`relative h-8 w-8 transition-colors duration-500 ${
-                resolvedTheme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}/>
+              <Icon className="relative h-8 w-8 text-white"/>
             </div>
-            <h2 className={`text-4xl font-bold tracking-tight bg-gradient-to-r bg-clip-text text-transparent transition-all duration-500 ${
-              resolvedTheme === 'dark'
-                ? 'from-white via-gray-200 to-gray-400'
-                : 'from-gray-900 via-gray-700 to-gray-500'
-            }`}>
+            <h2 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
               {title}
             </h2>
-            <div className={`flex-1 h-px bg-gradient-to-r to-transparent transition-colors duration-500 ${
-              resolvedTheme === 'dark' ? 'from-white/20' : 'from-gray-400/30'
-            }`}></div>
+            <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"></div>
           </motion.div>
         )}
         {children}
@@ -352,19 +378,12 @@ function Section({ id, title, icon: Icon, children, className = "" }) {
 
 // ====== HERO ======
 function Hero() {
-  const { resolvedTheme } = useTheme();
+  const handleAnimationComplete = () => {
+    console.log('Animation completed!');
+  };
 
   return (
-    <ParallaxSection speed={0.3}>
-      <Section id="home" title="" icon={() => <span />} className="pt-32 relative min-h-screen flex items-center">
-        {/* Matrix Rain Effect */}
-        <MatrixRain intensity={resolvedTheme === 'dark' ? 0.1 : 0.05} />
-        
-        {/* Neural Network Background */}
-        <div className="absolute inset-0 opacity-20">
-          <NeuralNetwork />
-        </div>
-        
+    <Section id="home" title="" icon={() => <span />} className="pt-32 relative min-h-screen flex items-center">
       {/* Background Effects */}
       <FloatingParticles />
       <GlowingOrb />
@@ -400,22 +419,37 @@ function Hero() {
           <div className="relative grid items-center gap-12 lg:grid-cols-5">
             {/* Text Column */}
             <div className="lg:col-span-3 space-y-8">
-              <div className="flex flex-wrap items-center text-4xl font-extrabold md:text-6xl lg:text-7xl leading-tight tracking-tight relative">
-                <EnhancedBlurText
+              <div className="flex flex-wrap items-center text-4xl font-extrabold md:text-6xl lg:text-7xl leading-tight tracking-tight">
+                <BlurText
                   text="Hi, I'm "
-                  delay={100}
+                  delay={150}
                   animateBy="letters"
                   direction="top"
-                  className="text-white dark:text-white"
-                  glowEffect={true}
+                  onAnimationComplete={handleAnimationComplete}
+                  className="text-white"
                 />
-                <GlitchText
+                <motion.span
                   className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 font-extrabold"
-                  intensity={0.8}
-                  speed={1.5}
+                  initial="hidden"
+                  animate="visible"
+                  variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.05 } } }}
                 >
-                  {DATA.name}
-                </GlitchText>
+                  {DATA.name.split("").map((char, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 20, rotateX: -90 }}
+                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 100,
+                        delay: i * 0.05
+                      }}
+                      className="inline-block"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </motion.span>
               </div>
 
               <motion.div
@@ -425,18 +459,16 @@ function Hero() {
                 className="space-y-4"
               >
                 <p className="text-xl lg:text-2xl font-semibold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                  <GlitchText intensity={0.3} speed={0.5}>{DATA.role}</GlitchText> • {DATA.location}
+                  {DATA.role} • {DATA.location}
                 </p>
 
-                <EnhancedTextType
+                <TextType
                   text={[DATA.about]}
-                  typingSpeed={40}
+                  typingSpeed={30}
                   pauseDuration={1000}
                   showCursor={true}
                   cursorCharacter="|"
                   className="text-lg leading-relaxed text-gray-300 max-w-2xl"
-                  blurEffect={true}
-                  glowEffect={true}
                 />
               </motion.div>
 
@@ -513,8 +545,7 @@ function Hero() {
           </div>
         </motion.div>
       </div>
-      </Section>
-    </ParallaxSection>
+    </Section>
   );
 }
 
