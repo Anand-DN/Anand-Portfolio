@@ -23,7 +23,7 @@ const Projects: React.FC = () => {
       technologies: ["Django", "Channels", "WebSockets", "HTML", "CSS"],
       duration: "Feb 2022 - April 2022",
       category: "Web Development",
-      image: Demo1Image,
+      image: "/demo1.png",
       gradient: "from-yellow-500 to-red-600",
       livedemo: "https://django-chat-app-uaj0.onrender.com/",
       codelink: "https://github.com/Anand-DN/Django-Chat-App.git",
@@ -45,7 +45,7 @@ const Projects: React.FC = () => {
       ],
       duration: "Jun 2025 - Mar 2025",
       category: "Blockchain",
-      image: realImage,
+      image: "/real.jpg",
       gradient: "from-blue-500 to-purple-600",
       // livedemo: "https://github.com/Anand-DN/Real-Estate-based-Blockchain-using-Escrow-Contracts.git",
       codelink:
@@ -67,7 +67,7 @@ const Projects: React.FC = () => {
       ],
       duration: "Nov 2022 - Dec 2023",
       category: "AI/ML",
-      image: cnnImage,
+      image: "/cnn.png",
       gradient: "from-green-500 to-blue-600",
       // livedemo: "https://your-demo-link.com",
       codelink:
@@ -82,7 +82,7 @@ const Projects: React.FC = () => {
       technologies: ["PHP", "SQL", "HTML", "CSS", "JavaScript", "MySQL"],
       duration: "Feb 2022 - April 2022",
       category: "Web Development",
-      image: busImage,
+      image: "/bus.png",
       gradient: "from-yellow-500 to-red-600",
       // livedemo: "https://your-bus-demo.com",
       codelink:
