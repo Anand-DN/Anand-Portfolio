@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import { Calendar, ExternalLink, Github } from "lucide-react";
 import React from "react";
 import { useInView } from "react-intersection-observer";
-import busImage from "../assets/bus.png";
-import cnnImage from "../assets/cnn.png";
-import Demo1Image from "../assets/demo1.png";
-import realImage from "../assets/real.jpg";
+// import busImage from "../assets/bus.png";
+// import cnnImage from "../assets/cnn.png";
+// import Demo1Image from "../assets/demo1.png";
+// import realImage from "../assets/real.jpg";
 
 const Projects: React.FC = () => {
   const [ref, inView] = useInView({
