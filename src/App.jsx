@@ -312,6 +312,8 @@ function Nav() {
 
 // ====== SECTION WRAPPER ======
 function Section({ id, title, icon: Icon, children, className = "" }) {
+  const { resolvedTheme } = useTheme();
+  
   return (
     <section id={id} className={`scroll-mt-24 px-4 relative ${className}`}>
       <div className="mx-auto max-w-6xl py-20">
@@ -325,12 +327,20 @@ function Section({ id, title, icon: Icon, children, className = "" }) {
           >
             <div className="relative">
               <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-pink-500 to-cyan-500 blur opacity-50"></div>
-              <Icon className="relative h-8 w-8 text-white"/>
+              <Icon className={`relative h-8 w-8 transition-colors duration-500 ${
+                resolvedTheme === 'dark' ? 'text-white' : 'text-gray-900'
+              }`}/>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
+            <h2 className={`text-4xl font-bold tracking-tight bg-gradient-to-r bg-clip-text text-transparent transition-all duration-500 ${
+              resolvedTheme === 'dark'
+                ? 'from-white via-gray-200 to-gray-400'
+                : 'from-gray-900 via-gray-700 to-gray-500'
+            }`}>
               {title}
             </h2>
-            <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"></div>
+            <div className={`flex-1 h-px bg-gradient-to-r to-transparent transition-colors duration-500 ${
+              resolvedTheme === 'dark' ? 'from-white/20' : 'from-gray-400/30'
+            }`}></div>
           </motion.div>
         )}
         {children}
@@ -819,84 +829,82 @@ function Projects() {
 // ====== CERTIFICATIONS ======
 function Certs() {
   return (
-    <ParallaxSection speed={0.05}>
-      <Section id="certs" title="Certifications & Achievements" icon={Medal}>
-        <div className="grid gap-8 md:grid-cols-2">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <HolographicCard className="h-full">
-              <div className="p-6 space-y-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-pulse"></div>
-                  <h3 className="text-xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-                    Certifications
-                  </h3>
-                </div>
-                <div className="space-y-4">
-                  {DATA.certifications.map((c, index) => (
-                    <motion.div
-                      key={c.name}
-                      className="flex items-center justify-between p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 group hover:bg-white/10 transition-all duration-300"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.02, x: 5 }}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
-                        <span className="text-white font-medium">{c.name}</span>
-                      </div>
-                      <span className="text-gray-400 text-sm group-hover:text-white transition-colors">
-                        {c.date}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
+    <Section id="certs" title="Certifications & Achievements" icon={Medal}>
+      <div className="grid gap-8 md:grid-cols-2">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <HolographicCard className="h-full">
+            <div className="p-6 space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-pulse"></div>
+                <h3 className="text-xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                  Certifications
+                </h3>
               </div>
-            </HolographicCard>
-          </motion.div>
+              <div className="space-y-4">
+                {DATA.certifications.map((c, index) => (
+                  <motion.div
+                    key={c.name}
+                    className="flex items-center justify-between p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 group hover:bg-white/10 transition-all duration-300"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500"></div>
+                      <span className="text-white font-medium">{c.name}</span>
+                    </div>
+                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">
+                      {c.date}
+                    </span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </HolographicCard>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <HolographicCard className="h-full">
-              <div className="p-6 space-y-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 animate-pulse"></div>
-                  <h3 className="text-xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
-                    Achievements
-                  </h3>
-                </div>
-                <div className="space-y-4">
-                  {DATA.achievements.map((a, index) => (
-                    <motion.div
-                      key={a}
-                      className="flex items-center gap-3 p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 group hover:bg-white/10 transition-all duration-300"
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      whileHover={{ scale: 1.02, x: 5 }}
-                    >
-                      <div className="w-2 h-2 rounded-full bg-gradient-to-r from-green-400 to-emerald-500"></div>
-                      <span className="text-white">{a}</span>
-                    </motion.div>
-                  ))}
-                </div>
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <HolographicCard className="h-full">
+            <div className="p-6 space-y-6">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 animate-pulse"></div>
+                <h3 className="text-xl font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+                  Achievements
+                </h3>
               </div>
-            </HolographicCard>
-          </motion.div>
-        </div>
-      </Section>
-    </ParallaxSection>
+              <div className="space-y-4">
+                {DATA.achievements.map((a, index) => (
+                  <motion.div
+                    key={a}
+                    className="flex items-center gap-3 p-4 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 group hover:bg-white/10 transition-all duration-300"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
+                    <div className="w-2 h-2 rounded-full bg-gradient-to-r from-green-400 to-emerald-500"></div>
+                    <span className="text-white">{a}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </HolographicCard>
+        </motion.div>
+      </div>
+    </Section>
   );
 }
 
