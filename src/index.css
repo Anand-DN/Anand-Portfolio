@@ -14,9 +14,6 @@
     cursor: none;
   }
 }
-.debug-border {
-  border: 2px solid red;
-}
 @layer components {
   .glass-effect {
     @apply backdrop-blur-lg bg-white/10 border border-white/20 dark:bg-dark-300/10 dark:border-white/10;
