@@ -56,12 +56,14 @@ const Navbar: React.FC = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
               </motion.a>
             ))}
+            <div className="ml-auto flex items-center justify-end">
             <ThemeToggle />
+              </div>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
-            <div className="absolute top-4 right-4">
+            <div className="ml-auto flex items-center justify-end">
             <ThemeToggle />
               </div>
             <button
