@@ -25,7 +25,7 @@ import Magnet from './Magnet';
 import PixelTransition from "./PixelTransition";
 import Prism from "./Prism";
 import SplashCursor from "./SplashCursor";
-import TypeText from ".//home/project/src/TypeText.jsx";
+import TypeText from "./TypeText.jsx";
 
 // ====== DATA (Edit here to update your portfolio) ======
 const DATA = {
