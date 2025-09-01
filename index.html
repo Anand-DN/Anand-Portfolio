@@ -1,25 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/anand.png" />
-    <title>Anand • Portfolio</title>
+    <title>Anand DN - Full Stack Developer & AI/ML Engineer</title>
+    
+    <meta name="description" content="Portfolio of Anand DN - Computer Science Engineering student specializing in Backend Development, AI/ML, and Database Management. Passionate about solving complex problems." />
+    <meta name="author" content="Anand DN" />
 
-    <!-- ✅ set dark/light on <html> before the app mounts -->
-    <script>
-      (function () {
-        try {
-          const saved = localStorage.getItem("anand.theme");
-          const prefers = window.matchMedia("(prefers-color-scheme: dark)").matches;
-          const isDark = saved ? saved === "dark" : prefers;
-          document.documentElement.classList.toggle("dark", isDark);
-        } catch (_) {}
-      })();
+    <meta property="og:title" content="Anand DN - Full Stack Developer & AI/ML Engineer" />
+    <meta property="og:description" content="Portfolio of Anand DN - Computer Science Engineering student specializing in Backend Development, AI/ML, and Database Management." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ananddn.dev" />
+    <meta property="og:image" content="https://ibb.co/67X3xfSV" />
+    <meta property="og:image:width" content="960" />
+    <meta property="og:image:height" content="600" />	
+    <meta property="og:image:alt" content="Anand DN Portfolio Preview" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Anand DN - Full Stack Developer & AI/ML Engineer" />
+    <meta name="twitter:description" content="Portfolio of Anand DN - Computer Science Engineering student specializing in Backend Development, AI/ML, and Database Management." />
+    <meta name="twitter:site" content="@ananddn" />
+    <meta name="twitter:image" content="https://ibb.co/67X3xfSV" />
+
+    <link rel="canonical" href="https://ananddn.dev" />
+
+     <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Anand DN Portfolio",
+      "url": "https://ananddn.dev",
+      "description": "Portfolio of Anand DN - Computer Science Engineering student specializing in Backend Development, AI/ML, and Database Management.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Anand DN"
+      }
+    }
     </script>
+
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
