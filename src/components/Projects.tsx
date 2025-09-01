@@ -23,7 +23,7 @@ const Projects: React.FC = () => {
       technologies: ["Django", "Channels", "WebSockets", "HTML", "CSS"],
       duration: "Feb 2022 - April 2022",
       category: "Web Development",
-      image: "/demo1.png",
+      image: "/Demo1.png",
       gradient: "from-yellow-500 to-red-600",
       livedemo: "https://django-chat-app-uaj0.onrender.com/",
       codelink: "https://github.com/Anand-DN/Django-Chat-App.git",
