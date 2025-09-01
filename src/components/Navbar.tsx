@@ -56,16 +56,16 @@ const Navbar: React.FC = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
               </motion.a>
             ))}
-            <div className="ml-auto flex items-center justify-end">
-            <ThemeToggle />
-              </div>
+            <div className="ml-auto flex items-center justify-end order-last">
+              <ThemeToggle />
+            </div>
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
             <div className="ml-auto flex items-center justify-end">
-            <ThemeToggle />
-              </div>
+              <ThemeToggle />
+            </div>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"

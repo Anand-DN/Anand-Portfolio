@@ -6,10 +6,8 @@ import { useTheme } from "../hooks/use-theme";
 const ThemeToggle: React.FC = () => {
   const { theme, setTheme } = useTheme();
 
-  const options: {
-    name: "light" | "dark" | "system";
-    icon: React.ReactElement;
-  }[] = [
+  type Theme = "light" | "dark" | "system";
+  const options: { name: Theme; icon: React.ReactNode }[] = [
     { name: "light", icon: <Sun className="w-4 h-4" /> },
     { name: "dark", icon: <Moon className="w-4 h-4" /> },
     { name: "system", icon: <Laptop className="w-4 h-4" /> },

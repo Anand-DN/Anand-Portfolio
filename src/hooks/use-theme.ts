@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -10,7 +10,7 @@ export const useTheme = () => {
         return storedTheme;
       }
     }
-    return 'system';
+    return 'system'; // Default theme
   });
 
   useEffect(() => {
@@ -23,7 +23,10 @@ export const useTheme = () => {
       } else {
         root.classList.toggle('dark', t === 'dark');
       }
-      localStorage.setItem('theme', t);
+      // Only set localStorage if available
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('theme', t);
+      }
     };
 
     applyTheme(theme);
