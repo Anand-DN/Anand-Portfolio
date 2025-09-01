@@ -20,21 +20,19 @@ const Navbar: React.FC = () => {
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "#projects" },
-    { name: "Cerfs", href: "#certifications" },
+    { name: "Certs", href: "#certs" }, // Updated to match image
     { name: "Contact", href: "#contact" },
   ];
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
+      initial={false} // Disable initial animation to test consistency
       animate={{ y: 0 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? "glass-effect shadow-lg" : "bg-transparent"
-      } debug-border`}
+      className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "glass-effect shadow-lg" : "bg-transparent"} debug-border`}
     >
       <div className="max-w-7xl mx-auto section-padding flex items-center justify-between h-16">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
+          initial={false} // Disable initial animation
           animate={{ opacity: 1, x: 0 }}
           className="font-bold text-xl gradient-text"
         >
@@ -47,7 +45,7 @@ const Navbar: React.FC = () => {
             <motion.a
               key={item.name}
               href={item.href}
-              initial={{ opacity: 0, y: -20 }}
+              initial={false} // Disable initial animation
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300 relative group"
