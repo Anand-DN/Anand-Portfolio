@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { BriefcaseBusiness, ChevronRight, Download, ExternalLink, Github, Linkedin, Mail, MapPin, Medal, Moon, Phone, Rocket, Sun } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { BriefcaseBusiness, ChevronRight, Download, ExternalLink, Github, Linkedin, Mail, MapPin, Medal, Phone, Rocket } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
 import anandImage from "./assets/anand.png";
 import busImage from "./assets/bus.png";
 import cnnImage from "./assets/cnn.png";
@@ -18,50 +18,9 @@ import PixelTransition from "./PixelTransition";
 import Prism from "./Prism";
 import SplashCursor from "./SplashCursor";
 import TextType from './TextType';
-
-// ====== THEME TOGGLE ======
-function ThemeToggle({ dark, setDark }) {
-  return (
-    <Magnet magnetStrength={3} padding={50}>
-      <motion.button
-        aria-label="Toggle Theme"
-        onClick={() => setDark((d) => !d)}
-        className="fixed right-6 top-6 z-50 group"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <div className="relative">
-          <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur-lg opacity-30 group-hover:opacity-100 transition duration-700 animate-gradient-xy"></div>
-          <div className="relative rounded-full border-2 border-white/20 bg-white/10 backdrop-blur-xl px-4 py-3 text-sm transition-all duration-300 hover:bg-white/20 dark:border-white/30 dark:bg-black/20 dark:hover:bg-black/30">
-            <AnimatePresence mode="wait">
-              {dark ? (
-                <motion.div
-                  key="sun"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Sun className="h-5 w-5 text-yellow-400" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="moon"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Moon className="h-5 w-5 text-blue-400" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      </motion.button>
-    </Magnet>
-  );
-}
+import { useTheme } from "./hooks/useTheme";
+import ThemeToggle from "./components/ThemeToggle";
+import ScrollProgress from "./components/ScrollProgress";
 
 // ====== DATA (Edit here to update your portfolio) ======
 const DATA = {
@@ -1100,22 +1059,14 @@ function Footer() {
 
 // ====== MAIN APP ======
 export default function App() {
-  const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem("anand.theme");
-    if (saved) return saved === "dark";
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-
-  useEffect(() => {
-    if (dark) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
-    localStorage.setItem("anand.theme", dark ? "dark" : "light");
-  }, [dark]);
+  // The useTheme hook now manages the theme state globally.
+  useTheme();
 
   return (
-    <div className="min-h-screen w-screen overflow-x-hidden bg-gradient-to-br from-black via-gray-900 to-black text-white antialiased">
+    <div className="min-h-screen w-screen overflow-x-hidden bg-gradient-to-br from-black via-gray-900 to-black text-white antialiased dark:from-gray-900 dark:via-black dark:to-black">
+      <ScrollProgress />
       <SplashCursor/>
-      <ThemeToggle dark={dark} setDark={setDark} />
+      <ThemeToggle />
       <Nav />
       <Hero />
       <About />

@@ -18,11 +18,11 @@ export default function ThemeToggle() {
         className="fixed right-6 top-6 z-50 group"
         initial={{ opacity: 0, scale: 0.8, y: -20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
+        transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 1, 0.5, 1] }}
       >
         <div className="relative">
           {/* Animated background glow */}
-          <div className="absolute -inset-3 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur-xl opacity-30 group-hover:opacity-60 transition-all duration-700 animate-gradient-xy"></div>
+          <div className="absolute -inset-3 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 blur-xl opacity-30 group-hover:opacity-60 transition-all duration-700 animate-gradient-xy animate-pulse"></div>
           
           {/* Main container */}
           <div className="relative rounded-2xl border-2 border-white/20 bg-black/20 dark:bg-white/10 backdrop-blur-xl p-2 shadow-2xl">

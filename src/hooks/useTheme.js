@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 
 export function useTheme() {
   const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') {
+      return 'system';
+    }
     const saved = localStorage.getItem('anand.theme');
     if (saved && ['light', 'dark', 'system'].includes(saved)) {
       return saved;
