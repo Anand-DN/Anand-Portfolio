@@ -7,7 +7,7 @@ import {
   Phone,
   Sparkles,
 } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react"; // ✅ ensure correct path
+import React, { useEffect, useRef, useState } from "react";
 import BlurText from "./BlurText";
 
 const Hero: React.FC = () => {
@@ -83,7 +83,7 @@ const Hero: React.FC = () => {
     <section
       ref={heroRef}
       id="home"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20 md:pt-24"
     >
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
