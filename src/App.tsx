@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-dark-100 dark:via-black dark:to-dark-200 relative text-gray-800 dark:text-gray-200">
-{/*       <CursorFollower /> */}
+      {/* <CursorFollower /> */}
       <SplashCursor />
       <Navbar />
       <main>
