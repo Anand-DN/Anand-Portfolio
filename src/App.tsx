@@ -1,7 +1,7 @@
 import About from "./components/About";
 import Certifications from "./components/Certifications";
 import Contact from "./components/Contact";
-import CursorFollower from "./components/CursorFollower";
+// import CursorFollower from "./components/CursorFollower";
 import Education from "./components/Education";
 import Experience from "./components/Experience";
 import Footer from "./components/Footer";
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-primary-50 dark:from-dark-100 dark:via-black dark:to-dark-200 relative text-gray-800 dark:text-gray-200">
-      <CursorFollower />
+{/*       <CursorFollower /> */}
       <SplashCursor />
       <Navbar />
       <main>
