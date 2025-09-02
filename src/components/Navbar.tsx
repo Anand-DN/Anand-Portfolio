@@ -20,19 +20,21 @@ const Navbar: React.FC = () => {
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Projects", href: "#projects" },
-    { name: "Certs", href: "#certs" }, // Updated to match image
+    { name: "Cerfs", href: "#certifications" },
     { name: "Contact", href: "#contact" },
   ];
 
   return (
     <motion.nav
-      initial={false} // Disable initial animation to test consistency
+      initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? "glass-effect shadow-lg" : "bg-transparent"} debug-border`}
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        scrolled ? "glass-effect shadow-lg" : "bg-transparent"
+      } debug-border`}
     >
       <div className="max-w-7xl mx-auto section-padding flex items-center justify-between h-16">
         <motion.div
-          initial={false} // Disable initial animation
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           className="font-bold text-xl gradient-text"
         >
@@ -45,7 +47,7 @@ const Navbar: React.FC = () => {
             <motion.a
               key={item.name}
               href={item.href}
-              initial={false} // Disable initial animation
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-300 relative group"
@@ -54,7 +56,7 @@ const Navbar: React.FC = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 dark:bg-primary-400 transition-all duration-300 group-hover:w-full"></span>
             </motion.a>
           ))}
-          <div className="ml-auto flex items-center justify-end">
+          <div className="flex items-center gap-2">
             <ThemeToggle />
           </div>
         </div>
