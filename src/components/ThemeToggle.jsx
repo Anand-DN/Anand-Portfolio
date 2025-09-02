@@ -15,7 +15,7 @@ export default function ThemeToggle() {
   return (
     <Magnet magnetStrength={3} padding={50}>
       <motion.div
-        className="fixed right-6 top-6 z-50 group"
+        className="relative z-50 group"
         initial={{ opacity: 0, scale: 0.8, y: -20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 1, 0.5, 1] }}
