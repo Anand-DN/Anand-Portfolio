@@ -62,11 +62,13 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile menu button */}
-        <div className="md:hidden flex items-center gap-4">
-          <ThemeToggle />
+        <div className="md:hidden flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center">
+            <ThemeToggle />
+          </div>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center justify-center"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
