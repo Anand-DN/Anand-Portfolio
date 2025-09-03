@@ -37,10 +37,10 @@ const About: React.FC = () => {
   ];
 
   const stats = [
-    { number: "9.5", label: "CGPA", suffix: "/10" },
-    { number: "4+", label: "Projects", suffix: "+" },
-    { number: "4+", label: "Certifications", suffix: "" },
-    { number: "2+", label: "Internship", suffix: "" },
+    { number: "9.4", label: "CGPA", suffix: "/10" },
+    { number: "4", label: "Projects", suffix: "+" },
+    { number: "4", label: "Certifications", suffix: "+" },
+    { number: "2", label: "Internship", suffix: "+" },
   ];
 
   return (
