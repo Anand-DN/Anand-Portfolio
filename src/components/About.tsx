@@ -108,7 +108,7 @@ const About: React.FC = () => {
                   I'm a motivated Computer Science Engineering student with a
                   CGPA of{" "}
                   <span className="font-bold text-primary-600 dark:text-primary-400">
-                    9.5
+                    9.4
                   </span>
                   , specializing in{" "}
                   <span className="font-semibold text-purple-600 dark:text-purple-400">
